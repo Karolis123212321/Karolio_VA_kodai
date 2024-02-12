@@ -13,6 +13,28 @@ def dalinti (pirmas, antras):
 
 def saknis (pirmas):
     return math.sqrt(pirmas)
+
+print ("Pasirinkite skaiciuotuvo versija:")
+print ("N - naturalus")
+print ("P - Su paaiskinimais")
+
+Versija = input("Pasirinkimas: ")
+
+
+if Versija == 'N':
+    pirmas_sk = int(input())
+    operatorius = input()
+    antras_sk = int(input())
+    if operatorius == '+':
+        print(" = ", pirmas_sk + antras_sk)
+    elif operatorius == '-':
+        print(" = ", pirmas_sk - antras_sk)
+    elif operatorius == '*':
+        print(" = ", pirmas_sk * antras_sk)
+    elif operatorius == '/':
+        print(" = ", pirmas_sk / antras_sk)
+
+
 while True:
     print ("Pasirinkite kokia operacija norite daryti:")
     print ("1 - sudetis")
