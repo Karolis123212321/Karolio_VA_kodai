@@ -1,11 +1,64 @@
 import math
-from flask import Flask
+from flask import Flask, request, render_template_string
 
 app = Flask(__name__)
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, world<p>"
+@app.route("/", methods=["GET", "POST"])
+def calculate():
+    if request.method == "POST":
+        operation = request.form.get("operation")
+        if operation == "sqrt":
+            number = float(request.form.get("number"))
+            result = math.sqrt(number)
+            return render_template_string(HTML_TEMPLATE, result=result)
+        else:
+            number1 = float(request.form.get("number1"))
+            number2 = float(request.form.get("number2"))
+            if operation == "add":
+                result = number1 + number2
+            elif operation == "subtract":
+                result = number1 - number2
+            elif operation == "multiply":
+                result = number1 * number2
+            elif operation == "divide":
+                result = number1 / number2
+            return render_template_string(HTML_TEMPLATE, result=result)
+    else:
+        return render_template_string(HTML_TEMPLATE)
+
+HTML_TEMPLATE = """
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Kalkuliatorius 1.0</title>
+</head>
+<body>
+  <h2>Kalkuliatorius 1.0</h2>
+  <form method="post">
+    <label for="operation">Pasirinkite ka darysite</label>
+    <select name="operation" id="operation">
+      <option value="add">sudetis</option>
+      <option value="subtract">Atimtis</option>
+      <option value="multiply">Daugyba</option>
+      <option value="divide">Dalyba</option>
+      <option value="sqrt">Saknis</option>
+    </select>
+    <br><br>
+    <input type="number" id="number1" name="number1" placeholder="1 numeris" required>
+    <input type="number" id="number2" name="number2" placeholder="2 numeris">
+    <input type="number" id="number" name="number" placeholder="Numeris sakniai">
+    <button type="submit">Skaiciuoti</button>
+  </form>
+  {% if result is defined %}
+  <h3>Atsakymas: {{ result }}</h3>
+  {% endif %}
+</body>
+</html>
+"""
+
+if __name__ == "__main__":
+    app.run(debug=True)
 
 if __name__ == "__main__":
     app.run()
