@@ -4,12 +4,6 @@ from flask import Flask, request
 app = Flask(__name__)
 
 
-
-
-
-
-
-
 def prideti (pirmas, antras):
     return pirmas + antras
 
@@ -26,33 +20,46 @@ def saknis (pirmas):
     return math.sqrt(pirmas)
 
 @app.route("/") 
-def hello_world():
+def gui():
 
     return f"""
                 <form action="/skaiciuokle">
                     <label for="sk1">skaicius 1</label><br>
-                        <input type="text" id="sk1" name="test" value=""><br>
+                        <input type="text" id="sk1" name="sk1" value=""><br>
                         </br></br>
 
                     <label for="sk2">skaicius 2</label><br>
-                        <input type="text" id="sk2" name="test2" value=""><br><br>
+                        <input type="text" id="sk2" name="sk2" value=""><br><br>
                         </br></br>
                         
-                    <label for="[[__ID__]]">zenklas</label><br>   
-                        <input type="text" id="[[__ID__]]" name="[[__ID__]]" value=""><br><br>
-                        </br></br>
+                    <label for="zenklas">Veiksmas (+, -, *, /, sqrt):</label><br>
+                    <input type="text" id="zenklas" name="zenklas" value=""><br><br>
 
                     <input type="submit" value="Submit">
              """   
 @app.route("/skaiciuokle")
 def skaiciuokle():
-    skaicius1 = request.args.get("sk1")
-    skaicius2 = request.args.get("sk2")
-    suma = prideti(int(skaicius1), int(skaicius2))
-    return f"{suma}"
+    skaicius1 = int(request.args.get("sk1"))
+    skaicius2 = int(request.args.get("sk2"))
+    veiksmas = request.args.get("zenklas")
+    if veiksmas == "+":
+        rezultatas = prideti(skaicius1,skaicius2)
+    
+    elif veiksmas == "-":
+        rezultatas = atimti(skaicius1, skaicius2)
+
+    elif veiksmas == "/":
+        rezultatas = dalinti(skaicius1, skaicius2)
+
+    elif veiksmas == "*":
+        rezultatas = dauginti(skaicius1, skaicius2)
+    return f"<h1>Rezultatas: <h1\>{rezultatas}"
 
 if __name__ == "__main__":
     app.run()
+
+
+
 
 while True:
     print ("Pasirinkite skaiciuotuvo versija:")
