@@ -29,17 +29,17 @@ def saknis (pirmas):
 def hello_world():
 
     return f"""
-                <form action="/skaicius">
-                    <label for="test">skaicius 1</label><br>
-                        <input type="text" id="test" name="test" value="0"><br>
+                <form action="/skaiciuokle">
+                    <label for="sk1">skaicius 1</label><br>
+                        <input type="text" id="sk1" name="test" value=""><br>
                         </br></br>
 
-                    <label for="test2">skaicius 2</label><br>
-                        <input type="text" id="test2" name="test2" value="0"><br><br>
+                    <label for="sk2">skaicius 2</label><br>
+                        <input type="text" id="sk2" name="test2" value=""><br><br>
                         </br></br>
                         
-                    <label for="[[__ID__]]">skaicius 2</label><br>   
-                        <input type="text" id="[[__ID__]]" name="[[__ID__]]" value="0"><br><br>
+                    <label for="[[__ID__]]">zenklas</label><br>   
+                        <input type="text" id="[[__ID__]]" name="[[__ID__]]" value=""><br><br>
                         </br></br>
 
                     <input type="submit" value="Submit">
