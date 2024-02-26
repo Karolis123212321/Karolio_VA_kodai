@@ -25,6 +25,25 @@ def dalinti (pirmas, antras):
 def saknis (pirmas):
     return math.sqrt(pirmas)
 
+@app.route("/") 
+def hello_world():
+
+    return f"""
+                <form action="/skaicius">
+                    <label for="test">skaicius 1</label><br>
+                        <input type="text" id="test" name="test" value="0"><br>
+                        </br></br>
+
+                    <label for="test2">skaicius 2</label><br>
+                        <input type="text" id="test2" name="test2" value="0"><br><br>
+                        </br></br>
+                        
+                    <label for="[[__ID__]]">skaicius 2</label><br>   
+                        <input type="text" id="[[__ID__]]" name="[[__ID__]]" value="0"><br><br>
+                        </br></br>
+
+                    <input type="submit" value="Submit">
+             """   
 @app.route("/skaiciuokle")
 def skaiciuokle():
     skaicius1 = request.args.get("sk1")
