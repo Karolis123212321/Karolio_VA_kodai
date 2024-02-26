@@ -7,20 +7,20 @@ app = Flask(__name__)
 def calculate():
     if request.method == "POST":
         operation = request.form.get("operation")
-        if operation == "sqrt":
+        if operation == "saknis":
             number = float(request.form.get("number"))
             result = math.sqrt(number)
-            return render_template_string(HTML_TEMPLATE, result=result)
+            return render_template_string(HTML_TEMPLATE, result=int(result))
         else:
             number1 = float(request.form.get("number1"))
             number2 = float(request.form.get("number2"))
-            if operation == "add":
+            if operation == "sudetis":
                 result = number1 + number2
-            elif operation == "subtract":
+            elif operation == "atimtis":
                 result = number1 - number2
-            elif operation == "multiply":
+            elif operation == "daugyba":
                 result = number1 * number2
-            elif operation == "divide":
+            elif operation == "dalyba":
                 result = number1 / number2
             return render_template_string(HTML_TEMPLATE, result=result)
     else:
@@ -38,11 +38,11 @@ HTML_TEMPLATE = """
   <form method="post">
     <label for="operation">Pasirinkite ka darysite</label>
     <select name="operation" id="operation">
-      <option value="add">sudetis</option>
-      <option value="subtract">Atimtis</option>
-      <option value="multiply">Daugyba</option>
-      <option value="divide">Dalyba</option>
-      <option value="sqrt">Saknis</option>
+      <option value="sudetis">sudetis</option>
+      <option value="atimtis">Atimtis</option>
+      <option value="daugyba">Daugyba</option>
+      <option value="dalyba">Dalyba</option>
+      <option value="saknis">Saknis</option>
     </select>
     <br><br>
     <input type="number" id="number1" name="number1" placeholder="1 numeris" required>
@@ -58,10 +58,7 @@ HTML_TEMPLATE = """
 """
 
 if __name__ == "__main__":
-    app.run(debug=True)
-
-if __name__ == "__main__":
-    app.run()
+    app.run(debug = True)
 
 
 def prideti (pirmas, antras):
