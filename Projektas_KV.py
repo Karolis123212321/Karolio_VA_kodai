@@ -19,12 +19,15 @@ def dalinti (pirmas, antras):
 def saknis (pirmas):
     return math.sqrt(pirmas)
 
+buve_veiksmai = []
+
 @app.route("/") 
 def inputas():
     return render_template('index.html')
 
 @app.route("/skaiciuokle")
 def skaiciuokle():
+    global buve_veiksmai
     skaicius1 = int(request.args.get("sk1"))
     veiksmas = request.args.get("zenklas")
     if veiksmas == "sqrt":
@@ -49,7 +52,12 @@ def skaiciuokle():
 
         elif veiksmas == "sqrt":
             rezultatas = saknis(skaicius1)
-    return render_template('index.html', ats = rezultatas)
+    if veiksmas == "sqrt":
+        buve_veiksmai.append(f"{veiksmas} iš {skaicius1} = {rezultatas}")
+    else:
+        buve_veiksmai.append(f"{skaicius1} {veiksmas} {skaicius2} = {rezultatas}")
+
+    return render_template('index.html', ats = rezultatas, veiksmai = buve_veiksmai)
 
 
 if __name__ == "__main__":

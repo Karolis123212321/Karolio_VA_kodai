@@ -21,5 +21,14 @@
         <input type="submit" value="Submit">
         
     <h1>Rezultatas: {{ats}}</h1>
+
+    <h3>Buvę veiksmai:</h3>
+    <table>
+        {% for veiksmas in veiksmai %}
+        <tr>
+            <td>{{veiksmas}}</td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>
