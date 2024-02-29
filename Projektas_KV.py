@@ -1,5 +1,5 @@
 import math
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 app = Flask(__name__)
 
@@ -20,23 +20,9 @@ def saknis (pirmas):
     return math.sqrt(pirmas)
 
 @app.route("/") 
-def gui():
+def inputas():
+    return render_template('index.html')
 
-    return f"""
-                <form action="/skaiciuokle">
-                    <label for="sk1">skaicius 1</label><br>
-                        <input type="text" id="sk1" name="sk1" value=""><br>
-                        </br></br>
-
-                    <label for="sk2">skaicius 2</label><br>
-                        <input type="text" id="sk2" name="sk2" value=""><br><br>
-                        </br></br>
-                        
-                    <label for="zenklas">Veiksmas (+, -, *, /, sqrt):</label><br>
-                    <input type="text" id="zenklas" name="zenklas" value=""><br><br>
-
-                    <input type="submit" value="Submit">
-             """   
 @app.route("/skaiciuokle")
 def skaiciuokle():
     skaicius1 = int(request.args.get("sk1"))
@@ -53,7 +39,11 @@ def skaiciuokle():
 
     elif veiksmas == "*":
         rezultatas = dauginti(skaicius1, skaicius2)
-    return f"<h1>Rezultatas: <h1\>{rezultatas}"
+
+    elif veiksmas == "sqrt":
+        rezultatas = saknis(skaicius1)
+    return render_template('index.html', rezultatas = rezultatas)
+
 
 if __name__ == "__main__":
     app.run()
