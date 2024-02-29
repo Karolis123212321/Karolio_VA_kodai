@@ -26,22 +26,29 @@ def inputas():
 @app.route("/skaiciuokle")
 def skaiciuokle():
     skaicius1 = int(request.args.get("sk1"))
-    skaicius2 = int(request.args.get("sk2"))
     veiksmas = request.args.get("zenklas")
-    if veiksmas == "+":
-        rezultatas = prideti(skaicius1,skaicius2)
-    
-    elif veiksmas == "-":
-        rezultatas = atimti(skaicius1, skaicius2)
+    if veiksmas == "sqrt":
+        if skaicius1 < 0:
+            rezultatas = "Negalima traukti šaknies iš nulio"
+        else:
+            rezultatas = saknis(skaicius1)
+    else:
+        
+        skaicius2 = int(request.args.get("sk2"))
+        if veiksmas == "+":
+            rezultatas = prideti(skaicius1,skaicius2)
+        
+        elif veiksmas == "-":
+            rezultatas = atimti(skaicius1, skaicius2)
 
-    elif veiksmas == "/":
-        rezultatas = dalinti(skaicius1, skaicius2)
+        elif veiksmas == "/":
+            rezultatas = dalinti(skaicius1, skaicius2)
 
-    elif veiksmas == "*":
-        rezultatas = dauginti(skaicius1, skaicius2)
+        elif veiksmas == "*":
+            rezultatas = dauginti(skaicius1, skaicius2)
 
-    elif veiksmas == "sqrt":
-        rezultatas = saknis(skaicius1)
+        elif veiksmas == "sqrt":
+            rezultatas = saknis(skaicius1)
     return render_template('index.html', ats = rezultatas)
 
 
