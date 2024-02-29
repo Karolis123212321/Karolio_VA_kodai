@@ -42,7 +42,7 @@ def skaiciuokle():
 
     elif veiksmas == "sqrt":
         rezultatas = saknis(skaicius1)
-    return render_template('index.html', rezultatas = rezultatas)
+    return render_template('index.html', ats = rezultatas)
 
 
 if __name__ == "__main__":
