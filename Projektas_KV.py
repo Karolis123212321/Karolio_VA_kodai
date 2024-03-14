@@ -1,4 +1,4 @@
-import math
+import math, requests
 from flask import Flask, request, render_template
 
 app = Flask(__name__)
@@ -19,11 +19,31 @@ def dalinti (pirmas, antras):
 def saknis (pirmas):
     return math.sqrt(pirmas)
 
+def get_weather(city='Vilnius'):
+    API_key = '5fd6309521391b5401a1c21b795e599b'
+    lat = 54.8985
+    lon = 23.9036
+    url = f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_key}&units=metric'
+    try:
+        response = requests.get(url)
+        print("API Response:", response.json())  # Print the API response to debug
+        if response.status_code == 200:
+            weather = response.json()
+            return weather
+        else:
+            print("Error fetching weather data:", response.status_code)
+            return {"error": "Failed to fetch weather data"}
+    except requests.RequestException as e:
+        print("Request failed:", e)
+        return {"error": "Request failed"}
+
+
 buve_veiksmai = []
 
-@app.route("/") 
+@app.route("/")
 def inputas():
-    return render_template('index.html')
+    weather = get_weather()
+    return render_template('index.html', weather=weather)
 
 @app.route("/skaiciuokle")
 def skaiciuokle():
@@ -56,8 +76,8 @@ def skaiciuokle():
         buve_veiksmai.append(f"{veiksmas} iš {skaicius1} = {rezultatas}")
     else:
         buve_veiksmai.append(f"{skaicius1} {veiksmas} {skaicius2} = {rezultatas}")
-
-    return render_template('index.html', ats = rezultatas, veiksmai = buve_veiksmai)
+    weather = get_weather()
+    return render_template('index.html', ats = rezultatas, veiksmai = buve_veiksmai, weather = weather)
 
 
 if __name__ == "__main__":

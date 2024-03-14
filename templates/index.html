@@ -6,6 +6,54 @@
     <title>Skaiciuotuvas</title>
 </head>
 <body>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        form {
+            max-width: 400px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"], input[type="submit"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box; /* Makes sure padding doesn't affect overall width */
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        table {
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        h1, h2, h3 {
+            text-align: center;
+        }
+        .weather {
+            text-align: center;
+            margin: 20px;
+        }
+    </style>
     <form action="/skaiciuokle">
         <label for="sk1">skaicius 1</label><br>
             <input type="text" id="sk1" name="sk1" value=""><br>
@@ -20,6 +68,7 @@
 
         <input type="submit" value="Submit">
         
+        
     <h1>Rezultatas: {{ats}}</h1>
 
     <h3>Buvę veiksmai:</h3>
@@ -30,5 +79,12 @@
         </tr>
         {% endfor %}
     </table>
+    {% if weather %}
+    <h2>Weather in {{ weather.get('name', 'Unknown location') }}:</h2>
+    <p>Temperature: {{ weather.get('main', {}).get('temp', 'N/A') }}°C</p>
+    <p>Condition: {{ weather.get('weather', [{}])[0].get('description', 'N/A') }}</p>
+    {% else %}
+    <p>{{ error }}</p>
+    {% endif %}
 </body>
 </html>
