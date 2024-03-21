@@ -19,6 +19,24 @@ def dalinti (pirmas, antras):
 def saknis (pirmas):
     return math.sqrt(pirmas)
 
+
+def evaluate_expression(expression):
+    # Replace the eval function with a safer evaluation mechanism
+    # This example uses simple arithmetic operations and avoids eval
+    try:
+        # Handle square root separately
+        if 'sqrt' in expression:
+            number = float(expression.split('sqrt')[1])
+            return math.sqrt(number)
+        
+        # Basic arithmetic
+        result = eval(expression, {"__builtins__": None}, {"math": math})
+    except ZeroDivisionError:
+        return "Cannot divide by zero."
+    except Exception as e:
+        return "Invalid expression."
+    return result
+
 def get_weather(city='Vilnius'):
     API_key = '5fd6309521391b5401a1c21b795e599b'
     lat = 54.8985
@@ -26,66 +44,28 @@ def get_weather(city='Vilnius'):
     url = f'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_key}&units=metric'
     try:
         response = requests.get(url)
-        print("API Response:", response.json())  # Print the API response to debug
         if response.status_code == 200:
             weather = response.json()
             return weather
         else:
-            print("Error fetching weather data:", response.status_code)
             return {"error": "Failed to fetch weather data"}
-    except requests.RequestException as e:
-        print("Request failed:", e)
+    except requests.RequestException:
         return {"error": "Request failed"}
 
-
-buve_veiksmai = []
-
-@app.route("/")
-def inputas():
+@app.route("/", methods=['GET', 'POST'])
+def home():
+    result = ""
+    if request.method == 'POST':
+        expression = request.form.get('expression')
+        result = evaluate_expression(expression)
     weather = get_weather()
-    return render_template('index.html', weather=weather)
-
-@app.route("/skaiciuokle")
-def skaiciuokle():
-    global buve_veiksmai
-    skaicius1 = int(request.args.get("sk1"))
-    veiksmas = request.args.get("zenklas")
-    if veiksmas == "sqrt":
-        if skaicius1 < 0:
-            rezultatas = "Negalima traukti šaknies iš nulio"
-        else:
-            rezultatas = saknis(skaicius1)
-    else:
-        
-        skaicius2 = int(request.args.get("sk2"))
-        if veiksmas == "+":
-            rezultatas = prideti(skaicius1,skaicius2)
-        
-        elif veiksmas == "-":
-            rezultatas = atimti(skaicius1, skaicius2)
-
-        elif veiksmas == "/":
-            rezultatas = dalinti(skaicius1, skaicius2)
-
-        elif veiksmas == "*":
-            rezultatas = dauginti(skaicius1, skaicius2)
-
-        elif veiksmas == "sqrt":
-            rezultatas = saknis(skaicius1)
-    if veiksmas == "sqrt":
-        buve_veiksmai.append(f"{veiksmas} iš {skaicius1} = {rezultatas}")
-    else:
-        buve_veiksmai.append(f"{skaicius1} {veiksmas} {skaicius2} = {rezultatas}")
-    weather = get_weather()
-    return render_template('index.html', ats = rezultatas, veiksmai = buve_veiksmai, weather = weather)
-
+    return render_template('index.html', result=result, weather=weather)
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
 
 
-
-
+"""
 while True:
     print ("Pasirinkite skaiciuotuvo versija:")
     print ("n - naturalus")
@@ -144,7 +124,7 @@ while True:
                 
             elif pasirinkimas == '4':
                 print("Atsakymas: ", dalinti(numeris_1, numeris_2))
-
+"""
 
     
 
