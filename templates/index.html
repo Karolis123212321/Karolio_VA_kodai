@@ -50,19 +50,55 @@
             font-size: 18px; /* Increased font size for better visibility */
         }
         .weather-forecast {
-            padding: 20px;
-            background: #eee;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-            margin-top: 20px; /* Added some margin at the top */
-        }
+        padding: 20px;
+        background-color: #f9f9f9; /* Light gray background for the forecast */
+        border-radius: 15px; /* Rounded corners */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        margin: 20px auto;
+        text-align: center;
+        width: 80%;
+        max-width: 400px; /* Adjust width as necessary */
+    }
+
+    .weather-forecast h2 {
+        margin: 0.5em 0;
+        color: #333;
+        font-family: 'Arial', sans-serif;
+        font-size: 1.5em;
+        font-weight: 500;
+    }
+
+    .weather-forecast p {
+        margin: 0.25em 0;
+        color: #555;
+        font-family: 'Arial', sans-serif;
+        font-size: 1.2em;
+        line-height: 1.4;
+    }
         .weather-icon {
-            width: 50px;
-            height: 50px;
-        }
+        width: 50px;
+        height: 50px;
+        border-radius: 50%; /* Makes the background circle */
+        background-color: #343333; /* Dark gray background */
+        display: inline-block;
+        padding: 10px; /* Padding to create spacing around the icon */
+        box-sizing: border-box; /* Include padding in width and height calculations */
+        object-fit: cover; /* Keep the aspect ratio of the icon */
+    }
+    .result {
+        font-family: 'Arial', sans-serif;
+        color: #333;
+        font-size: 2em; /* Makes the result text larger */
+        font-weight: bold;
+        margin: 20px 0;
+        padding: 10px;
+        background-color: #e8e8e8; /* Light grey background to highlight the result */
+        border-radius: 8px;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+    }
     
         /* Responsive adjustments */
         @media (max-width: 600px) {
@@ -101,14 +137,14 @@
                 <button type="button" onclick="clearDisplay()" style="grid-column: span 2;">C</button>
             </div>
         </form>
-        <p>Result: {{ result }}</p>
+        <p class="result">{{ result }}</p>
     </div>
     <div class="weather-forecast">
         <!-- Display the icon image using the icon URL from the weather data -->
         <img src="{{ icon_url }}" alt="Weather Icon" class="weather-icon">
-        <h2>Weather in {{ weather.get('name', 'Unknown location') }}:</h2>
-        <p>Temperature: {{ weather.get('main', {}).get('temp', 'N/A') }}°C</p>
-        <p>Condition: {{ weather.get('weather', [{}])[0].get('description', 'N/A') }}</p>
+        <h2>Oras lokacijoje: {{ weather.get('name', 'Unknown location') }}:</h2>
+        <p>Temperatūra: {{ weather.get('main', {}).get('temp', 'N/A') }}°C</p>
+        <p>Sąlygos: {{ weather.get('weather', [{}])[0].get('description', 'N/A') }}</p>
     </div>
     <script>
         function appendValue(value) {
