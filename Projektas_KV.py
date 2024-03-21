@@ -45,12 +45,17 @@ def get_weather(city='Vilnius'):
     try:
         response = requests.get(url)
         if response.status_code == 200:
-            weather = response.json()
-            return weather
+            weather_data = response.json()
+            # Extract the icon code from the weather data
+            icon_code = weather_data['weather'][0]['icon']
+            # Construct the icon URL
+            weather_data['icon_url'] = f"https://openweathermap.org/img/wn/{icon_code}@2x.png"
+            return weather_data
         else:
             return {"error": "Failed to fetch weather data"}
-    except requests.RequestException:
+    except requests.RequestException as e:
         return {"error": "Request failed"}
+    
 
 @app.route("/", methods=['GET', 'POST'])
 def home():
@@ -59,7 +64,7 @@ def home():
         expression = request.form.get('expression')
         result = evaluate_expression(expression)
     weather = get_weather()
-    return render_template('index.html', result=result, weather=weather)
+    return render_template('index.html', result=result, weather=weather, icon_url=weather.get('icon_url', ''))
 
 if __name__ == "__main__":
     app.run(debug=True)

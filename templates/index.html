@@ -104,7 +104,8 @@
         <p>Result: {{ result }}</p>
     </div>
     <div class="weather-forecast">
-        <img src="" class="weather-icon" alt="Weather Icon">
+        <!-- Display the icon image using the icon URL from the weather data -->
+        <img src="{{ icon_url }}" alt="Weather Icon" class="weather-icon">
         <h2>Weather in {{ weather.get('name', 'Unknown location') }}:</h2>
         <p>Temperature: {{ weather.get('main', {}).get('temp', 'N/A') }}°C</p>
         <p>Condition: {{ weather.get('weather', [{}])[0].get('description', 'N/A') }}</p>
